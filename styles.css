@@ -1,0 +1,393 @@
+:root {
+  color-scheme: light;
+  --bg: #f7f3ee;
+  --bg-accent: #fbd9c2;
+  --ink: #1e1b19;
+  --muted: #6a6158;
+  --card: #fffaf4;
+  --stroke: rgba(30, 27, 25, 0.12);
+  --accent: #ff7a59;
+  --accent-strong: #ff5f7a;
+  --shadow: 0 30px 60px rgba(30, 27, 25, 0.12);
+  --ring: 616px;
+  font-family: "DM Serif Display", "Playfair Display", "Times New Roman", serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at top, var(--bg-accent), var(--bg));
+  color: var(--ink);
+  font-family: "Manrope", "Helvetica Neue", Arial, sans-serif;
+}
+
+.app {
+  width: min(92vw, 520px);
+  background: var(--card);
+  border-radius: 36px;
+  padding: 40px 32px 32px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.app::before {
+  content: "";
+  position: absolute;
+  inset: -40% 40% auto -30%;
+  height: 280px;
+  background: linear-gradient(135deg, rgba(255, 122, 89, 0.25), rgba(255, 179, 71, 0));
+  border-radius: 50%;
+}
+
+.app__header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.app__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.68rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.app__title {
+  font-family: "DM Serif Display", "Playfair Display", serif;
+  font-size: 2.6rem;
+  margin: 8px 0;
+}
+
+.app__subtitle {
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.mode-switch {
+  display: grid;
+  place-items: center;
+  margin: 18px 0 6px;
+}
+
+.segmented {
+  display: inline-flex;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--stroke);
+  gap: 6px;
+}
+
+.segmented__btn {
+  border: none;
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--muted);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.segmented__btn.is-active {
+  background: var(--ink);
+  color: white;
+}
+
+.timer {
+  display: grid;
+  place-items: center;
+  margin: 18px 0 18px;
+}
+
+.timer__ring {
+  width: 240px;
+  height: 240px;
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.timer__ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: conic-gradient(
+      from 120deg,
+      rgba(255, 122, 89, 0.85),
+      rgba(255, 179, 71, 0.6),
+      rgba(255, 95, 122, 0.8),
+      rgba(255, 122, 89, 0.85)
+    ),
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.1) 55%),
+    conic-gradient(
+      from -90deg,
+      rgba(30, 27, 25, 0.35) 0deg,
+      rgba(30, 27, 25, 0.35) 1deg,
+      transparent 1deg,
+      transparent 6deg
+    );
+  background-blend-mode: screen, normal, normal;
+  animation: none;
+  filter: saturate(0.95) contrast(0.95);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.timer__ring::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.05) 55%,
+    rgba(30, 27, 25, 0.15)
+  ),
+  repeating-radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 255, 255, 0.08) 0,
+    rgba(255, 255, 255, 0.08) 1px,
+    rgba(0, 0, 0, 0.02) 2px,
+    rgba(0, 0, 0, 0.02) 3px
+  );
+  background-blend-mode: screen;
+  mix-blend-mode: soft-light;
+  box-shadow: inset 0 0 0 1px rgba(30, 27, 25, 0.08);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.timer__svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  position: relative;
+  z-index: 1;
+}
+
+.timer__track {
+  fill: none;
+  stroke: rgba(30, 27, 25, 0.08);
+  stroke-width: 16;
+}
+
+.timer__progress {
+  fill: none;
+  stroke: url(#ringGradient);
+  stroke-width: 16;
+  stroke-linecap: round;
+  stroke-dasharray: var(--ring);
+  stroke-dashoffset: var(--ring);
+  transition: stroke-dashoffset 0.35s ease;
+}
+
+.dial__tick {
+  stroke: rgba(30, 27, 25, 0.35);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.dial__tick--minor {
+  stroke-width: 1;
+  stroke: rgba(30, 27, 25, 0.18);
+}
+
+.dial__label {
+  font-family: "Manrope", "Helvetica Neue", Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  fill: #1e1b19;
+  paint-order: stroke;
+  stroke: rgba(255, 255, 255, 0.7);
+  stroke-width: 2px;
+  letter-spacing: 0.02em;
+}
+
+
+.timer__value {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-family: "DM Serif Display", "Playfair Display", serif;
+  z-index: 2;
+}
+
+.timer__hands {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.hand {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: center bottom;
+  border-radius: 999px;
+  background: rgba(30, 27, 25, 0.9);
+  box-shadow: 0 4px 10px rgba(30, 27, 25, 0.25);
+}
+
+.hand--minute {
+  width: 6px;
+  height: 68px;
+  transform: translate(-50%, -100%) rotate(0deg);
+}
+
+.hand--hour {
+  width: 8px;
+  height: 52px;
+  transform: translate(-50%, -100%) rotate(0deg);
+  background: rgba(30, 27, 25, 0.85);
+}
+
+.hand--second {
+  width: 3px;
+  height: 86px;
+  transform: translate(-50%, -100%) rotate(0deg);
+  background: #ff5f7a;
+}
+
+.hand__cap {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #1e1b19;
+  box-shadow: 0 4px 10px rgba(30, 27, 25, 0.25);
+}
+
+.timer__time {
+  font-size: 3rem;
+  letter-spacing: 0.04em;
+}
+
+.timer__mode {
+  font-size: 0.8rem;
+  color: var(--muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-family: "Manrope", "Helvetica Neue", Arial, sans-serif;
+}
+
+.controls {
+  display: grid;
+  gap: 16px;
+}
+
+.controls__primary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.button {
+  border: none;
+  border-radius: 999px;
+  padding: 14px 18px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.button:focus-visible,
+.segmented__btn:focus-visible,
+.preset:focus-visible {
+  outline: 2px solid rgba(30, 27, 25, 0.4);
+  outline-offset: 2px;
+}
+
+.button--primary {
+  background: var(--ink);
+  color: white;
+  box-shadow: 0 12px 30px rgba(30, 27, 25, 0.2);
+}
+
+.button--ghost {
+  background: transparent;
+  border: 1px solid var(--stroke);
+  color: var(--ink);
+}
+
+.button:hover,
+.preset:hover {
+  transform: translateY(-2px);
+}
+
+.timer-presets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.preset {
+  border: 1px solid var(--stroke);
+  border-radius: 16px;
+  padding: 12px 10px;
+  background: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.is-hidden {
+  display: none;
+}
+
+.footer {
+  margin-top: 22px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 520px) {
+  .app {
+    padding: 32px 22px 26px;
+  }
+
+  .controls__primary,
+  .timer-presets {
+    grid-template-columns: 1fr;
+  }
+
+  .timer__ring {
+    width: 200px;
+    height: 200px;
+  }
+
+  .timer__time {
+    font-size: 2.6rem;
+  }
+}
+
+@keyframes ringFlow {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.05) rotate(180deg);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+  }
+}

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Studio Time Tools</title>
+    <link rel="icon" type="image/jpeg" href="images/image.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="app__header">
+        <p class="app__eyebrow">Time Tools</p>
+        <h1 class="app__title">Studio Timer</h1>
+        <p class="app__subtitle">Switch between stopwatch and preset timers in one tap.</p>
+      </header>
+
+      <section class="mode-switch" aria-label="Mode">
+        <div class="segmented" role="tablist">
+          <button class="segmented__btn is-active" data-mode="stopwatch" role="tab" aria-selected="true">
+            Stopwatch
+          </button>
+          <button class="segmented__btn" data-mode="timer" role="tab" aria-selected="false">
+            Timer
+          </button>
+        </div>
+      </section>
+
+      <section class="timer" aria-live="polite">
+        <div class="timer__ring" role="presentation">
+          <svg viewBox="0 0 240 240" class="timer__svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="ringGradient" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#ffb347" />
+                <stop offset="100%" stop-color="#ff5f7a" />
+              </linearGradient>
+            </defs>
+            <g class="dial" id="dial"></g>
+            <circle class="timer__track" cx="120" cy="120" r="98" />
+            <circle class="timer__progress" cx="120" cy="120" r="98" />
+          </svg>
+          <div class="timer__hands" aria-hidden="true">
+            <span class="hand hand--hour" id="hourHand"></span>
+            <span class="hand hand--minute" id="minuteHand"></span>
+            <span class="hand hand--second" id="secondHand"></span>
+            <span class="hand__cap"></span>
+          </div>
+          <div class="timer__value">
+            <span id="timeDisplay" class="timer__time">00:00</span>
+            <span id="modeLabel" class="timer__mode">Stopwatch · Ready</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="controls">
+        <div class="controls__primary">
+          <button id="startPauseBtn" class="button button--primary">Start</button>
+          <button id="resetBtn" class="button button--ghost">Reset</button>
+        </div>
+      </section>
+
+      <section class="timer-presets" id="timerPresets" aria-label="Timer presets">
+        <button class="preset" data-preset="300">5 min</button>
+        <button class="preset" data-preset="600">10 min</button>
+        <button class="preset" data-preset="900">15 min</button>
+      </section>
+
+      <footer class="footer">
+        <p class="footer__hint">Space: start/pause · R: reset</p>
+      </footer>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
