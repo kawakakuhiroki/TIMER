@@ -1,0 +1,14 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Monospaced
+
+state "Studio Timer" as ST
+
+[*] --> ST : load
+ST --> ST : mode switch (Stopwatch <-> Timer)
+ST --> ST : start/pause
+ST --> ST : reset
+ST --> ST : preset select
+
+@enduml

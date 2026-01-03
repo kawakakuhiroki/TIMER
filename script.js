@@ -15,7 +15,7 @@ const TIMER_PRESETS = [300, 600, 900];
 const DEFAULT_TIMER_SECONDS = TIMER_PRESETS[0];
 
 let mode = "stopwatch";
-let status = "Ready";
+let timerStatus = "Ready";
 let timerId = null;
 
 let elapsedSeconds = 0;
@@ -33,7 +33,7 @@ function formatTime(seconds) {
 
 function setModeLabel() {
   const modeText = mode === "stopwatch" ? "Stopwatch" : "Timer";
-  modeLabel.textContent = `${modeText} · ${status}`;
+  modeLabel.textContent = `${modeText} · ${timerStatus}`;
 }
 
 function updateRing() {
@@ -135,7 +135,7 @@ function tick() {
   remainingSeconds -= 1;
   if (remainingSeconds <= 0) {
     remainingSeconds = 0;
-    status = "Done";
+    timerStatus = "Done";
     stopTimer();
   }
   updateDisplay();
@@ -146,7 +146,7 @@ function startTimer() {
   if (mode === "timer" && remainingSeconds <= 0) {
     remainingSeconds = totalSeconds;
   }
-  status = "Running";
+  timerStatus = "Running";
   setButtonsRunning(true);
   updateDisplay();
   timerId = setInterval(tick, 1000);
@@ -154,7 +154,7 @@ function startTimer() {
 
 function resetTimer() {
   stopTimer();
-  status = "Ready";
+  timerStatus = "Ready";
   if (mode === "stopwatch") {
     elapsedSeconds = 0;
   } else {
@@ -167,7 +167,7 @@ function setMode(newMode) {
   if (mode === newMode) return;
   stopTimer();
   mode = newMode;
-  status = "Ready";
+  timerStatus = "Ready";
 
   modeButtons.forEach((button) => {
     const isActive = button.dataset.mode === newMode;
@@ -191,7 +191,7 @@ function setPreset(seconds) {
   if (Number.isNaN(seconds) || seconds <= 0) return;
   totalSeconds = seconds;
   remainingSeconds = seconds;
-  status = "Ready";
+  timerStatus = "Ready";
   updateDisplay();
 }
 
@@ -211,7 +211,7 @@ presetButtons.forEach((button) => {
 startPauseBtn.addEventListener("click", () => {
   if (timerId) {
     stopTimer();
-    status = "Paused";
+    timerStatus = "Paused";
     updateDisplay();
   } else {
     startTimer();
